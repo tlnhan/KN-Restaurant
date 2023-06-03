@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "908825120304",
+    "project_id": "kn-restaurant-a9077",
+    "storage_bucket": "kn-restaurant-a9077.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:908825120304:android:df036245f7653fa6c067f5",
+        "android_client_info": {
+          "package_name": "com.example.kn_restaurant"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "908825120304-n4mc2gjsnidihdb0ju0sse4p3kdekenh.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAPwjnpuY4OipKjZvoQ0cPpprgmeOou_J8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "908825120304-n4mc2gjsnidihdb0ju0sse4p3kdekenh.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
