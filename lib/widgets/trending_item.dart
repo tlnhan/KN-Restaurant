@@ -49,7 +49,7 @@ class _TrendingItemState extends State<TrendingItem> {
                   child: Padding(
                     padding: const EdgeInsets.only(top: 5.0, bottom: 5.0),
                     child: SizedBox(
-                      height: MediaQuery.of(context).size.height / 2.6,
+                      height: MediaQuery.of(context).size.height / 2.5,
                       width: MediaQuery.of(context).size.width,
                       child: Card(
                         shape:

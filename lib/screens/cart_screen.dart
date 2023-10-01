@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:kn_restaurant/controllers/cart_controller.dart';
 import 'package:kn_restaurant/models/food_model.dart';
-import '../controllers/food_controller.dart';
 import '../utils/appColors.dart';
 
 class CartScreen extends StatelessWidget {
@@ -14,8 +13,18 @@ class CartScreen extends StatelessWidget {
     Get.put(CartController());
     final CartController controller = Get.find();
 
+    if (controller.foods.isEmpty) {
+      return Scaffold(
+        appBar: AppBar(
+          automaticallyImplyLeading: false,
+          centerTitle: true,
+          title: const Text("Giỏ hàng"),
+          backgroundColor: AppColors.kGreenColor,
+        ),
+      );
+    }
     return Obx(
-      () => Scaffold(
+          () => Scaffold(
         appBar: AppBar(
           automaticallyImplyLeading: false,
           centerTitle: true,
@@ -26,31 +35,25 @@ class CartScreen extends StatelessWidget {
           child: Column(
             children: [
               SizedBox(
-                height: 390,
+                height: 330,
                 child: ListView.builder(
-                    itemCount: controller.foods.length,
-                    itemBuilder: (BuildContext context, int index) {
-                      return CartFoodCard(
-                        controller: controller,
-                        food: controller.foods.keys.toList()[index],
-                        quantity: controller.foods.values.toList()[index],
-                        index: index,
-                      );
-                    }),
+                  itemCount: controller.foods.length,
+                  itemBuilder: (BuildContext context, int index) {
+                    final keys = controller.foods.keys.toList();
+                    final values = controller.foods.values.toList();
+                    return CartFoodCard(
+                      controller: controller,
+                      food: keys[index],
+                      quantity: values[index],
+                      index: index,
+                    );
+                  },
+                ),
               ),
-              SizedBox(
-                height: 290,
-                child: ListView.builder(
-                    itemCount: controller.foods.length,
-                    itemBuilder: (BuildContext context, int index) {
-                      return CartTotal(
-                        controller: controller,
-                        food: controller.foods.keys.toList()[index],
-                        index: index,
-                        quantity: controller.foods.values.toList()[index],
-                      );
-                    }),
-              ),
+              if (controller.foods.isNotEmpty)
+                CartTotal(
+                  controller: controller,
+                ),
             ],
           ),
         ),
@@ -104,7 +107,7 @@ class CartFoodCard extends StatelessWidget {
               Text("$quantity"),
               IconButton(
                 onPressed: () {
-                  controller.addFood(food);
+                  controller.addCardFood(food);
                 },
                 icon: const Icon(Icons.add_circle),
               ),
@@ -116,31 +119,29 @@ class CartFoodCard extends StatelessWidget {
   }
 }
 
-class CartTotal extends StatelessWidget {
+class CartTotal extends StatefulWidget {
   final CartController controller;
-  final Food food;
-  final int index;
-  final int quantity;
 
-  const CartTotal({
+  CartTotal({
     Key? key,
     required this.controller,
-    required this.food,
-    required this.index,
-    required this.quantity,
   }) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
-    Get.put(CartController());
-    Get.put(FoodController());
-    final CartController cartController = Get.find();
-    final TextEditingController userNameController = TextEditingController();
-    final TextEditingController addressController = TextEditingController();
-    final TextEditingController numberPhoneController = TextEditingController();
+  _CartTotalState createState() => _CartTotalState();
+}
 
-    return Obx(
-      () => Container(
+class _CartTotalState extends State<CartTotal> {
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  final TextEditingController userNameController = TextEditingController();
+  final TextEditingController addressController = TextEditingController();
+  final TextEditingController numberPhoneController = TextEditingController();
+
+  @override
+  Widget build(BuildContext context) {
+    return Form(
+      key: _formKey,
+      child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 30),
         child: Column(
           children: [
@@ -160,6 +161,12 @@ class CartTotal extends StatelessWidget {
                   ),
                 ),
               ),
+              validator: (value) {
+                if (value == null || value.isEmpty) {
+                  return 'Họ và Tên không được để trống';
+                }
+                return null;
+              },
             ),
             const SizedBox(
               height: 20,
@@ -180,6 +187,12 @@ class CartTotal extends StatelessWidget {
                   ),
                 ),
               ),
+              validator: (value) {
+                if (value == null || value.isEmpty) {
+                  return 'Địa chỉ không được để trống';
+                }
+                return null;
+              },
             ),
             const SizedBox(
               height: 20,
@@ -200,17 +213,23 @@ class CartTotal extends StatelessWidget {
                   ),
                 ),
               ),
+              validator: (value) {
+                if (value == null || value.isEmpty) {
+                  return 'Số điện thoại không được để trống';
+                }
+                return null;
+              },
             ),
             const SizedBox(
               height: 20,
             ),
             Container(
-              padding: const EdgeInsets.symmetric(horizontal: 35),
+              padding: const EdgeInsets.symmetric(horizontal: 55),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   const Text(
-                    'Tổng cộng:',
+                    'Tổng:',
                     style: TextStyle(
                       fontSize: 24,
                       fontWeight: FontWeight.bold,
@@ -218,7 +237,7 @@ class CartTotal extends StatelessWidget {
                     ),
                   ),
                   Text(
-                    '${cartController.total} VNĐ',
+                    '${widget.controller.total} VNĐ',
                     style: const TextStyle(
                       fontSize: 24,
                       fontWeight: FontWeight.bold,
@@ -232,18 +251,31 @@ class CartTotal extends StatelessWidget {
               height: 10,
             ),
             ElevatedButton.icon(
-              onPressed: () {
-                Map<String, dynamic> data = {
-                  "userName": userNameController.text,
-                  "foods": food.name,
-                  "quantity": quantity,
-                  "numberPhone": numberPhoneController.text,
-                  "address": addressController.text,
-                  "cashPayment": controller.total.toString(),
-                  "createdAt": DateTime.now(),
-                };
-                FirebaseFirestore.instance.collection("Orders").add(data);
-                controller.checkoutFood(food);
+              onPressed: () async {
+                if (_formKey.currentState!.validate() &&
+                    widget.controller.foods.isNotEmpty) {
+                  List<Map<String, dynamic>> orderItems = [];
+                  final food = widget.controller.foods.keys.first;
+                  widget.controller.foods.forEach((food, quantity) {
+                    orderItems.add({
+                      "foodName": food.name,
+                      "quantity": quantity,
+                    });
+                  });
+
+                  Map<String, dynamic> data = {
+                    "UserName": userNameController.text,
+                    "OrderItems": orderItems,
+                    "NumberPhone": numberPhoneController.text,
+                    "Address": addressController.text,
+                    "CashPayment": widget.controller.total.toString(),
+                    "CreatedAt": DateTime.now(),
+                    "Status": "Đang giao"
+                  };
+
+                  await FirebaseFirestore.instance.collection("Orders").add(data);
+                  widget.controller.checkoutFood(food);
+                }
               },
               icon: const Icon(Icons.monetization_on_outlined),
               style: ElevatedButton.styleFrom(

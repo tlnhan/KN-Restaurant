@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:kn_restaurant/screens/add.dart';
 import 'package:kn_restaurant/screens/home.dart';
 import 'package:kn_restaurant/screens/cart_screen.dart';
 import 'package:kn_restaurant/screens/profile.dart';
@@ -19,7 +18,6 @@ class _MainScreenState extends State<MainScreen> {
   List icons = [
     Icons.home,
     Icons.shopping_cart,
-    Icons.add,
     Icons.history_outlined,
     Icons.person,
   ];
@@ -27,7 +25,6 @@ class _MainScreenState extends State<MainScreen> {
   List pages = [
     const Home(),
     const CartScreen(),
-    const Add(),
     const Histories(),
     const Profile(),
   ];
@@ -39,7 +36,7 @@ class _MainScreenState extends State<MainScreen> {
         physics: const NeverScrollableScrollPhysics(),
         controller: _pageController,
         onPageChanged: onPageChanged,
-        children: List.generate(5, (index) =>  pages[index] ),
+        children: List.generate(4, (index) =>  pages[index] ),
       ),
       bottomNavigationBar: BottomAppBar(
         color: Theme.of(context).primaryColor,
@@ -48,32 +45,18 @@ class _MainScreenState extends State<MainScreen> {
           mainAxisSize: MainAxisSize.max,
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: <Widget>[
-            // SizedBox(width: 7),
             buildTabIcon(0),
             buildTabIcon(1),
+            buildTabIcon(2),
             buildTabIcon(3),
-            buildTabIcon(4),
             // SizedBox(width: 7),
           ],
         ),
       ),
       floatingActionButtonAnimator: FloatingActionButtonAnimator.scaling,
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      floatingActionButton: FloatingActionButton(
-        elevation: 10.0,
-        backgroundColor: Colors.green,
-        foregroundColor: Colors.white,
-        child: const Icon(
-          Icons.add,
-        ),
-        onPressed: () => _pageController.jumpToPage(2),
-      ),
     );
   }
-
- // void navigationTapped(int page) {
- //    _pageController.jumpToPage(page);
- //  }
 
   @override
   void initState() {
@@ -94,18 +77,20 @@ class _MainScreenState extends State<MainScreen> {
   }
 
   buildTabIcon(int index) {
-      return Container(
-        margin: EdgeInsets.fromLTRB( index == 3 ? 30 : 0, 0,  index == 1 ? 30 : 0, 0),
+    return Expanded(
+      child: Container(
+        margin: EdgeInsets.symmetric(horizontal: 10),
         child: IconButton(
           icon: Icon(
             icons[index],
-            size: 24.0,
+            size: 28.0,
           ),
           color: _page == index
               ? Theme.of(context).colorScheme.secondary
               : Theme.of(context).textTheme.bodySmall?.color,
           onPressed: () => _pageController.jumpToPage(index),
         ),
-      );
+      ),
+    );
   }
 }

@@ -55,7 +55,7 @@ class _SearchCardState extends State<SearchCard> {
               ),
               borderRadius: BorderRadius.circular(5.0),
             ),
-            hintText: "Search..",
+            hintText: "Tìm kiếm...",
             prefixIcon: const Icon(
               Icons.search,
               color: Colors.black,

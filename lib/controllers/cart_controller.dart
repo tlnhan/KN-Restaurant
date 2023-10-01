@@ -19,6 +19,14 @@ class CartController extends GetxController {
     );
   }
 
+  void addCardFood(Food food) {
+    if (_foods.containsKey(food)) {
+      _foods[food] += 1;
+    } else {
+      _foods[food] = 1;
+    }
+  }
+
   get foods => _foods;
 
   void removeFood(Food food) {
@@ -32,7 +40,7 @@ class CartController extends GetxController {
   void checkoutFood(Food food) async {
     Get.snackbar(
       "Đơn hàng đã được thanh toán",
-      "Bạn vừa thanh toán ${_foods[food]} ${food.name} \n Vui lòng kiểm tra điện thoại của bạn \n Delivery của chúng tôi sẽ đến trong ít phút",
+      "Vui lòng để ý điện thoại của bạn \n Delivery của chúng tôi sẽ đến trong vài phút nữa",
       snackPosition: SnackPosition.TOP,
       duration: const Duration(seconds: 2),
     );

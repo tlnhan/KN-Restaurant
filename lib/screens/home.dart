@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:kn_restaurant/controllers/food_controller.dart';
 import 'package:kn_restaurant/utils/appColors.dart';
-import 'package:kn_restaurant/utils/friends.dart';
 import 'package:kn_restaurant/widgets/search_card.dart';
 import 'package:kn_restaurant/widgets/trending_item.dart';
 import '../utils/categories.dart';
@@ -34,12 +33,9 @@ class Home extends StatelessWidget {
           padding: const EdgeInsets.fromLTRB(10.0, 0, 10.0, 0),
           child: ListView(
             children: <Widget>[
+              const SizedBox(height: 10.0,),
               buildSearchBar(context),
               const SizedBox(height: 20.0),
-              buildCategoryRow('Bạn bè', context),
-              const SizedBox(height: 10.0),
-              buildFriendsList(),
-              const SizedBox(height: 30.0),
               buildRestaurantRow("Nhà hàng nổi tiếng", context),
               const SizedBox(height: 10.0),
               buildRestaurantList(context),
@@ -159,7 +155,7 @@ class Home extends StatelessWidget {
 
   buildRestaurantList(BuildContext context) {
     return SizedBox(
-      height: MediaQuery.of(context).size.height / 2.7,
+      height: MediaQuery.of(context).size.height / 2.6,
       width: MediaQuery.of(context).size.width,
       child: ListView.builder(
         primary: false,
@@ -176,32 +172,6 @@ class Home extends StatelessWidget {
               title: restaurant["title"],
               address: restaurant["address"],
               rating: restaurant["rating"],
-            ),
-          );
-        },
-      ),
-    );
-  }
-
-  buildFriendsList() {
-    return SizedBox(
-      height: 50.0,
-      child: ListView.builder(
-        primary: false,
-        scrollDirection: Axis.horizontal,
-        shrinkWrap: true,
-        itemCount: friends == null ? 0 : friends.length,
-        itemBuilder: (BuildContext context, int index) {
-          String img = friends[index];
-
-          return Padding(
-            padding: const EdgeInsets.only(right: 5.0),
-            child: CircleAvatar(
-              backgroundImage: AssetImage(
-                img,
-              ),
-              backgroundColor: AppColors.kGreenColor,
-              radius: 25.0,
             ),
           );
         },
