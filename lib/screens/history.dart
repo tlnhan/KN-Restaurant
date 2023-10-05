@@ -1,72 +1,73 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:kn_restaurant/screens/odered_list.dart';
+import 'package:kn_restaurant/screens/register.dart';
 import 'package:kn_restaurant/utils/appColors.dart';
 
-import '../models/hisory_model.dart';
-import 'order_detail.dart';
+import 'login.dart';
 
 class Histories extends StatelessWidget {
   const Histories({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        automaticallyImplyLeading: false,
-        centerTitle: true,
-        title: const Text("Lịch sử"),
-        backgroundColor: AppColors.kGreenColor,
-      ),
-      // body: StreamBuilder<QuerySnapshot>(
-      //   stream: FirebaseFirestore.instance.collection("Orders").snapshots(),
-      //   builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
-      //     if (snapshot.hasError) {
-      //       return Center(child: Text('Đã xảy ra lỗi: ${snapshot.error}'));
-      //     }
-      //
-      //     if (snapshot.connectionState == ConnectionState.waiting) {
-      //       return const Center(child: CircularProgressIndicator());
-      //     }
-      //
-      //     final orderHistories = snapshot.data!.docs.map((doc) {
-      //       final data = doc.data() as Map<String, dynamic>;
-      //       return OrderHistory(
-      //         userName: data['UserName'],
-      //         orderItems: List<Map<String, dynamic>>.from(data['OrderItems']),
-      //         numberPhone: data['NumberPhone'],
-      //         address: data['Address'],
-      //         cashPayment: data['CashPayment'],
-      //         createdAt: (data['CreatedAt'] as Timestamp).toDate(),
-      //       );
-      //     }).toList();
-      //
-      //     return ListView.builder(
-      //       itemCount: orderHistories.length,
-      //       itemBuilder: (BuildContext context, int index) {
-      //         final history = orderHistories[index];
-      //         return ListTile(
-      //           title: Text("Người đặt: ${history.userName}"),
-      //           subtitle: Text("Thời gian: ${history.createdAt}"),
-      //           trailing: Text("Tổng tiền: ${history.cashPayment}"),
-      //             onTap: () {
-      //               Navigator.of(context).push(
-      //                 MaterialPageRoute(
-      //                   builder: (context) => OrderDetailScreen(
-      //                     userName: history.userName,
-      //                     orderItems: history.orderItems,
-      //                     numberPhone: history.numberPhone,
-      //                     address: history.address,
-      //                     cashPayment: history.cashPayment,
-      //                     createdAt: history.createdAt,
-      //                   ),
-      //                 ),
-      //               );
-      //           },
-      //         );
-      //       },
-      //     );
-      //   },
-      // ),
+    return StreamBuilder<User?>(
+      stream: FirebaseAuth.instance.authStateChanges(),
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return const Center(
+            child: CircularProgressIndicator(),
+          );
+        } else if (snapshot.hasError) {
+          return const Center(
+            child: Text('Có gì đó sai ở đây!'),
+          );
+        } else if (snapshot.hasData) {
+          return const OrderedListScreen();
+        } else {
+          return Scaffold(
+            appBar: AppBar(
+              automaticallyImplyLeading: false,
+              centerTitle: true,
+              title: const Text("Lịch sử đặt hàng"),
+              backgroundColor: AppColors.kGreenColor,
+            ),
+            body: Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Image.asset("assets/history.jpg"),
+                  const SizedBox(height: 16),
+                  const Text(
+                    "Bạn chưa đăng nhập ?",
+                    textAlign: TextAlign.center,
+                    style:
+                        TextStyle(fontSize: 30, color: AppColors.kGreenColor),
+                  ),
+                  const SizedBox(height: 16),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      ElevatedButton(
+                        onPressed: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => const LoginScreen()));
+                        },
+                        style: ButtonStyle(
+                            backgroundColor: MaterialStateProperty.all<Color>(
+                                AppColors.kGreenColor)),
+                        child: const Text('Đăng nhập'),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+          );
+        }
+      },
     );
   }
 }

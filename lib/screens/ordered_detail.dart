@@ -9,14 +9,19 @@ class OrderDetailScreen extends StatelessWidget {
   final String address;
   final String cashPayment;
   final DateTime createdAt;
+  final String email;
+  final String status;
 
-  OrderDetailScreen({
+  const OrderDetailScreen({
+    super.key,
     required this.userName,
     required this.orderItems,
     required this.numberPhone,
     required this.address,
     required this.cashPayment,
     required this.createdAt,
+    required this.email,
+    required this.status,
   });
 
   @override
@@ -28,13 +33,16 @@ class OrderDetailScreen extends StatelessWidget {
         backgroundColor: AppColors.kGreenColor,
       ),
       body: ListView(
-        padding: EdgeInsets.all(16.0),
+        padding: const EdgeInsets.all(16.0),
         children: [
           ListTile(
             title: Text("Người đặt: $userName"),
           ),
           ListTile(
             title: Text("Số điện thoại: $numberPhone"),
+          ),
+          ListTile(
+            title: Text("Email: $email"),
           ),
           ListTile(
             title: Text("Địa chỉ: $address"),
@@ -46,13 +54,17 @@ class OrderDetailScreen extends StatelessWidget {
             title: Text("Thời gian đặt hàng: ${createdAt.toLocal()}"),
           ),
           ListTile(
-            title: Text("Danh sách sản phẩm:"),
+            title: Text("Trạng thái: $status"),
+          ),
+          ListTile(
+            title: const Text("Danh sách sản phẩm:"),
             subtitle: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: orderItems.map((item) {
                 return ListTile(
                   title: Text(item['foodName']),
-                  subtitle: Text("Số lượng: ${item['quantity']}"),
+                  subtitle: Text(
+                      "Số lượng: ${item['quantity']} \n Tên nhà hàng: ${item['restaurant']} \n Địa chỉ nhà hàng: ${item['address']}"),
                 );
               }).toList(),
             ),

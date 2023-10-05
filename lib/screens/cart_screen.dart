@@ -1,6 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 import 'package:kn_restaurant/controllers/cart_controller.dart';
 import 'package:kn_restaurant/models/food_model.dart';
 import '../utils/appColors.dart';
@@ -23,8 +25,9 @@ class CartScreen extends StatelessWidget {
         ),
       );
     }
+
     return Obx(
-          () => Scaffold(
+      () => Scaffold(
         appBar: AppBar(
           automaticallyImplyLeading: false,
           centerTitle: true,
@@ -122,16 +125,16 @@ class CartFoodCard extends StatelessWidget {
 class CartTotal extends StatefulWidget {
   final CartController controller;
 
-  CartTotal({
+  const CartTotal({
     Key? key,
     required this.controller,
   }) : super(key: key);
 
   @override
-  _CartTotalState createState() => _CartTotalState();
+  CartTotalState createState() => CartTotalState();
 }
 
-class _CartTotalState extends State<CartTotal> {
+class CartTotalState extends State<CartTotal> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final TextEditingController userNameController = TextEditingController();
   final TextEditingController addressController = TextEditingController();
@@ -260,8 +263,11 @@ class _CartTotalState extends State<CartTotal> {
                     orderItems.add({
                       "foodName": food.name,
                       "quantity": quantity,
+                      "restaurant": food.restaurant,
                     });
                   });
+
+                  final currentUser = FirebaseAuth.instance.currentUser;
 
                   Map<String, dynamic> data = {
                     "UserName": userNameController.text,
@@ -269,11 +275,16 @@ class _CartTotalState extends State<CartTotal> {
                     "NumberPhone": numberPhoneController.text,
                     "Address": addressController.text,
                     "CashPayment": widget.controller.total.toString(),
-                    "CreatedAt": DateTime.now(),
-                    "Status": "Đang giao"
+                    "CreatedAt": DateFormat('dd-MM-yyyy HH:mm:ss')
+                        .format(DateTime.now()),
+                    "Status": "Đang giao",
+                    "Email":
+                        "${currentUser != null ? currentUser.email : 'Vãng lai'}"
                   };
 
-                  await FirebaseFirestore.instance.collection("Orders").add(data);
+                  await FirebaseFirestore.instance
+                      .collection("Orders")
+                      .add(data);
                   widget.controller.checkoutFood(food);
                 }
               },

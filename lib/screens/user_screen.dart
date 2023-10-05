@@ -105,17 +105,7 @@ class _UserScreenState extends State<UserScreen> {
         child: SingleChildScrollView(
           child: Column(
             children: [
-              const SizedBox(height: 50,),
-              TextFormField(
-                readOnly: true,
-                decoration: InputDecoration(
-                  labelText: 'ID:  ${user.uid}',
-                ),
-                style: const TextStyle(
-                  fontWeight: FontWeight.bold,
-                ),
-                textAlign: TextAlign.center,
-              ),
+              const SizedBox(height: 90,),
               TextFormField(
                 decoration: const InputDecoration(
                   labelText: 'Họ và tên:  ',

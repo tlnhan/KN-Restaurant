@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:kn_restaurant/screens/main_screen.dart';
+import 'package:kn_restaurant/utils/appColors.dart';
 
 
 class SplashScreen extends StatefulWidget {
@@ -47,6 +48,14 @@ class _SplashScreenState extends State<SplashScreen>
                     fontSize: 30,
                     letterSpacing: 3,
                   ),
+                ),
+              ),
+              const SizedBox(
+                width: 30,
+                height: 30,
+                child: CircularProgressIndicator(
+                  strokeWidth: 3,
+                  color: AppColors.kGreenColor,
                 ),
               ),
             ],

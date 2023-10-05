@@ -26,7 +26,7 @@ class Home extends StatelessWidget {
         appBar: AppBar(
           automaticallyImplyLeading: false,
           centerTitle: true,
-          title: const Text("Chào mừng đến với KN Restaurant"),
+          title: const Text("Trang chủ KN Restaurant"),
           backgroundColor: AppColors.kGreenColor,
         ),
         body: Padding(

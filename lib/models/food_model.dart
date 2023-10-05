@@ -6,6 +6,7 @@ class Food {
   final String img;
   final num price;
   final num rating;
+  final String restaurant;
 
   const Food({
     required this.name,
@@ -13,6 +14,7 @@ class Food {
     required this.img,
     required this.price,
     required this.rating,
+    required this.restaurant,
   });
 
   static Food fromSnapshot(DocumentSnapshot snap) {
@@ -22,6 +24,7 @@ class Food {
       img: snap['img'],
       price: snap['price'],
       rating: snap['rating'],
+      restaurant: snap['restaurant'],
     );
     return food;
   }
