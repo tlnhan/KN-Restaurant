@@ -264,6 +264,7 @@ class CartTotalState extends State<CartTotal> {
                       "foodName": food.name,
                       "quantity": quantity,
                       "restaurant": food.restaurant,
+                      "address": food.address,
                     });
                   });
 

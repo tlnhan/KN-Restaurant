@@ -27,7 +27,6 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      debugShowCheckedModeBanner: false,
       scaffoldMessengerKey: Utils.messengerKey,
       theme: ThemeData(
           brightness: Brightness.light,
@@ -38,6 +37,7 @@ class _MyAppState extends State<MyApp> {
       // theme: Constants.lightTheme,
       // darkTheme: Constants.darkTheme,
       home: const SplashScreen(),
+      debugShowCheckedModeBanner: false,
     );
   }
 }

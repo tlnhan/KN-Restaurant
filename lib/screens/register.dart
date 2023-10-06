@@ -48,7 +48,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
         snackPosition: SnackPosition.TOP,
         duration: const Duration(seconds: 2),
       );
-
     } on FirebaseAuthException catch (e) {
       if (kDebugMode) {
         print(e);
@@ -67,9 +66,13 @@ class _RegisterScreenState extends State<RegisterScreen> {
             padding: const EdgeInsets.all(16.0),
             child: Column(
               children: [
-                SizedBox(height: 50,),
+                const SizedBox(
+                  height: 50,
+                ),
                 Image.asset('assets/register.png'),
-                const SizedBox(height: 20,),
+                const SizedBox(
+                  height: 20,
+                ),
                 const Text(
                   "Đăng ký",
                   style: TextStyle(

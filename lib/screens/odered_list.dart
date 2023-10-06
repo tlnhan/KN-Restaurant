@@ -37,8 +37,9 @@ class OrderedListScreen extends StatelessWidget {
 
           final orderHistories = snapshot.data!.docs.map((doc) {
             final data = doc.data() as Map<String, dynamic>;
-            final createdAtString = data['CreatedAt'] as String; // Lấy chuỗi ngày tháng từ Firestore
-            final createdAt = DateFormat('dd-MM-yyyy HH:mm:ss').parse(createdAtString); // Chuyển đổi chuỗi sang DateTime
+            final createdAtString = data['CreatedAt'] as String;
+            final createdAt =
+                DateFormat('dd-MM-yyyy HH:mm:ss').parse(createdAtString);
             return OrderHistory(
               userName: data['UserName'],
               orderItems: List<Map<String, dynamic>>.from(data['OrderItems']),

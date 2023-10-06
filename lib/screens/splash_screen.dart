@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:kn_restaurant/screens/main_screen.dart';
 import 'package:kn_restaurant/utils/appColors.dart';
 
-
 class SplashScreen extends StatefulWidget {
   const SplashScreen({Key? key}) : super(key: key);
 
@@ -11,13 +10,11 @@ class SplashScreen extends StatefulWidget {
   State<SplashScreen> createState() => _SplashScreenState();
 }
 
-class _SplashScreenState extends State<SplashScreen>
-{
-
-  startTimer()
-  {
+class _SplashScreenState extends State<SplashScreen> {
+  startTimer() {
     Timer(const Duration(seconds: 3), () async {
-      Navigator.push(context, MaterialPageRoute(builder: (c)=> const MainScreen()));
+      Navigator.push(
+          context, MaterialPageRoute(builder: (c) => const MainScreen()));
     });
   }
 
@@ -29,15 +26,17 @@ class _SplashScreenState extends State<SplashScreen>
 
   @override
   Widget build(BuildContext context) {
-    return Material(
-      child: Container(
+    return Scaffold(
+      body: Container(
         color: Colors.white,
         child: Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Image.asset("assets/splash_screen.jpg"),
-              const SizedBox(height: 10,),
+              const SizedBox(
+                height: 10,
+              ),
               const Padding(
                 padding: EdgeInsets.all(18.0),
                 child: Text(

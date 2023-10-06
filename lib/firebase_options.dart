@@ -66,7 +66,8 @@ class DefaultFirebaseOptions {
     messagingSenderId: '908825120304',
     projectId: 'kn-restaurant-a9077',
     storageBucket: 'kn-restaurant-a9077.appspot.com',
-    iosClientId: '908825120304-hkr4s2hon8qv19kdrlg7p2n43cf0mm5g.apps.googleusercontent.com',
+    iosClientId:
+        '908825120304-hkr4s2hon8qv19kdrlg7p2n43cf0mm5g.apps.googleusercontent.com',
     iosBundleId: 'com.example.knRestaurant',
   );
 
@@ -76,7 +77,8 @@ class DefaultFirebaseOptions {
     messagingSenderId: '908825120304',
     projectId: 'kn-restaurant-a9077',
     storageBucket: 'kn-restaurant-a9077.appspot.com',
-    iosClientId: '908825120304-hkr4s2hon8qv19kdrlg7p2n43cf0mm5g.apps.googleusercontent.com',
+    iosClientId:
+        '908825120304-hkr4s2hon8qv19kdrlg7p2n43cf0mm5g.apps.googleusercontent.com',
     iosBundleId: 'com.example.knRestaurant',
   );
 }

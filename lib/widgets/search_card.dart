@@ -1,32 +1,25 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+
+import '../controllers/food_controller.dart';
+import '../models/food_model.dart';
+import 'food_detailed.dart';
 
 class SearchCard extends StatefulWidget {
   const SearchCard({Key? key}) : super(key: key);
 
   @override
-  State<SearchCard> createState() => _SearchCardState();
+  SearchCardState createState() => SearchCardState();
 }
 
-class _SearchCardState extends State<SearchCard> {
-  String foodName = '';
-
-  List<Map<String, dynamic>> data = [];
-
-  addData() async {
-    for (var element in data) {
-      FirebaseFirestore.instance.collection('Foods').add(element);
-    }
-    if (kDebugMode) {
-      print('Sản phẩm đã được thêm');
-    }
-  }
+class SearchCardState extends State<SearchCard> {
+  final FoodController foodController = Get.find();
+  final TextEditingController searchController = TextEditingController();
+  RxList<Food> searchResults = RxList<Food>();
+  bool isSearching = false;
 
   @override
   Widget build(BuildContext context) {
-    final TextEditingController searchControl = TextEditingController();
-
     return Card(
       elevation: 6.0,
       child: Container(
@@ -36,46 +29,81 @@ class _SearchCardState extends State<SearchCard> {
             Radius.circular(5.0),
           ),
         ),
-        child: TextField(
-          style: const TextStyle(
-            fontSize: 15.0,
-            color: Colors.black,
-          ),
-          decoration: InputDecoration(
-            contentPadding: const EdgeInsets.all(10.0),
-            border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(5.0),
-              borderSide: const BorderSide(
-                color: Colors.white,
+        child: Column(
+          children: [
+            TextField(
+              controller: searchController,
+              onChanged: (value) {
+                setState(() {
+                  searchResults.clear();
+                  if (value.isNotEmpty) {
+                    final keyword = value.toLowerCase();
+                    searchResults.addAll(foodController.foods.where((food) =>
+                        food.name.toLowerCase().contains(keyword) ||
+                        food.description.toLowerCase().contains(keyword)));
+                    isSearching = true;
+                  } else {
+                    isSearching = false;
+                  }
+                });
+              },
+              style: const TextStyle(
+                fontSize: 15.0,
+                color: Colors.black,
               ),
-            ),
-            enabledBorder: OutlineInputBorder(
-              borderSide: const BorderSide(
-                color: Colors.white,
+              decoration: InputDecoration(
+                contentPadding: const EdgeInsets.all(10.0),
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(5.0),
+                  borderSide: const BorderSide(
+                    color: Colors.white,
+                  ),
+                ),
+                enabledBorder: OutlineInputBorder(
+                  borderSide: const BorderSide(
+                    color: Colors.white,
+                  ),
+                  borderRadius: BorderRadius.circular(5.0),
+                ),
+                hintText: "Tìm kiếm...",
+                prefixIcon: const Icon(
+                  Icons.search,
+                  color: Colors.black,
+                ),
+                hintStyle: const TextStyle(
+                  fontSize: 15.0,
+                  color: Colors.black,
+                ),
               ),
-              borderRadius: BorderRadius.circular(5.0),
+              maxLines: 1,
             ),
-            hintText: "Tìm kiếm...",
-            prefixIcon: const Icon(
-              Icons.search,
-              color: Colors.black,
+            AnimatedContainer(
+              duration: const Duration(milliseconds: 300),
+              height: isSearching ? 170.0 : 0.0,
+              child: Obx(() {
+                final foodsToShow = searchResults.isNotEmpty
+                    ? searchResults.toList()
+                    : foodController.foods;
+                return ListView.builder(
+                  itemCount: foodsToShow.length,
+                  itemBuilder: (context, index) {
+                    final food = foodsToShow[index];
+                    return ListTile(
+                      title: Text(food.name),
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => FoodDetailPage(food: food),
+                          ),
+                        );
+                      },
+                    );
+                  },
+                );
+              }),
             ),
-            suffixIcon: const Icon(
-              Icons.filter_list,
-              color: Colors.black,
-            ),
-            hintStyle: const TextStyle(
-              fontSize: 15.0,
-              color: Colors.black,
-            ),
-          ),
-          onChanged: (val) {
-            setState(() {
-              foodName = val;
-            });
-          },
-          maxLines: 1,
-          controller: searchControl,
+          ],
         ),
       ),
     );

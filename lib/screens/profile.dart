@@ -13,13 +13,17 @@ class Profile extends StatelessWidget {
     return StreamBuilder<User?>(
       stream: FirebaseAuth.instance.authStateChanges(),
       builder: (context, snapshot) {
-       if (snapshot.connectionState == ConnectionState.waiting) {
-         return const Center(child: CircularProgressIndicator(),);
-       } else if (snapshot.hasError) {
-         return const Center(child: Text('Có gì đó sai ở đây!'),);
-       } else  if (snapshot.hasData) {
-         return const UserScreen();
-       } else {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return const Center(
+            child: CircularProgressIndicator(),
+          );
+        } else if (snapshot.hasError) {
+          return const Center(
+            child: Text('Có gì đó sai ở đây!'),
+          );
+        } else if (snapshot.hasData) {
+          return const UserScreen();
+        } else {
           return Scaffold(
             appBar: AppBar(
               automaticallyImplyLeading: false,
@@ -36,7 +40,8 @@ class Profile extends StatelessWidget {
                   const Text(
                     "Bạn chưa có tài khoản ?",
                     textAlign: TextAlign.center,
-                    style: TextStyle(fontSize: 30, color: AppColors.kGreenColor),
+                    style:
+                        TextStyle(fontSize: 30, color: AppColors.kGreenColor),
                   ),
                   const SizedBox(height: 16),
                   Row(
@@ -44,21 +49,28 @@ class Profile extends StatelessWidget {
                     children: [
                       ElevatedButton(
                         onPressed: () {
-                          Navigator.push(context, MaterialPageRoute(builder: (context) =>  const LoginScreen()));
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => const LoginScreen()));
                         },
                         style: ButtonStyle(
-                            backgroundColor: MaterialStateProperty.all<Color>(AppColors.kGreenColor)
-                        ),
+                            backgroundColor: MaterialStateProperty.all<Color>(
+                                AppColors.kGreenColor)),
                         child: const Text('Đăng nhập'),
                       ),
                       const SizedBox(width: 20),
                       ElevatedButton(
                         onPressed: () {
-                          Navigator.push(context, MaterialPageRoute(builder: (context) => const RegisterScreen()));
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) =>
+                                      const RegisterScreen()));
                         },
                         style: ButtonStyle(
-                            backgroundColor: MaterialStateProperty.all<Color>(AppColors.kGreenColor)
-                        ),
+                            backgroundColor: MaterialStateProperty.all<Color>(
+                                AppColors.kGreenColor)),
                         child: const Text('Đăng ký'),
                       ),
                     ],

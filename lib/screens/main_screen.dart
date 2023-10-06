@@ -8,10 +8,10 @@ class MainScreen extends StatefulWidget {
   const MainScreen({super.key});
 
   @override
-  State<MainScreen> createState() => _MainScreenState();
+  State<MainScreen> createState() => MainScreenState();
 }
 
-class _MainScreenState extends State<MainScreen> {
+class MainScreenState extends State<MainScreen> {
   late PageController _pageController;
   int _page = 0;
 
@@ -36,7 +36,7 @@ class _MainScreenState extends State<MainScreen> {
         physics: const NeverScrollableScrollPhysics(),
         controller: _pageController,
         onPageChanged: onPageChanged,
-        children: List.generate(4, (index) =>  pages[index] ),
+        children: List.generate(4, (index) => pages[index]),
       ),
       bottomNavigationBar: BottomAppBar(
         color: Theme.of(context).primaryColor,
@@ -49,7 +49,6 @@ class _MainScreenState extends State<MainScreen> {
             buildTabIcon(1),
             buildTabIcon(2),
             buildTabIcon(3),
-            // SizedBox(width: 7),
           ],
         ),
       ),
@@ -79,7 +78,7 @@ class _MainScreenState extends State<MainScreen> {
   buildTabIcon(int index) {
     return Expanded(
       child: Container(
-        margin: EdgeInsets.symmetric(horizontal: 10),
+        margin: const EdgeInsets.symmetric(horizontal: 10),
         child: IconButton(
           icon: Icon(
             icons[index],

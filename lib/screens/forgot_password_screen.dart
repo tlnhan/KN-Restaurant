@@ -26,11 +26,12 @@ class _ForgotPasswordState extends State<ForgotPassword> {
 
   Future resetPassword() async {
     try {
-      await FirebaseAuth.instance.sendPasswordResetEmail(
-          email: emailController.text.trim());
+      await FirebaseAuth.instance
+          .sendPasswordResetEmail(email: emailController.text.trim());
 
       Utils.showSnackBar("Email lấy lại mật khẩu đã được gửi");
-      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const LoginScreen()));
+      Navigator.pushReplacement(context,
+          MaterialPageRoute(builder: (context) => const LoginScreen()));
     } on FirebaseAuthException catch (e) {
       if (kDebugMode) {
         print(e);
@@ -57,11 +58,13 @@ class _ForgotPasswordState extends State<ForgotPassword> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               const Text(
-                  "Nhập email để lấy lại password",
+                "Nhập email để lấy lại password",
                 textAlign: TextAlign.center,
                 style: TextStyle(fontSize: 24, color: AppColors.kGreenColor),
               ),
-              const SizedBox(height: 20,),
+              const SizedBox(
+                height: 20,
+              ),
               TextFormField(
                 controller: emailController,
                 autovalidateMode: AutovalidateMode.onUserInteraction,
@@ -72,7 +75,10 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                   return null;
                 },
                 decoration: const InputDecoration(
-                  prefixIcon: Icon(Icons.person, color: AppColors.kGreenColor,),
+                  prefixIcon: Icon(
+                    Icons.person,
+                    color: AppColors.kGreenColor,
+                  ),
                   hintText: 'Email...',
                   focusColor: AppColors.kGreenColor,
                   focusedBorder: UnderlineInputBorder(
@@ -83,30 +89,46 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                   ),
                 ),
               ),
-              const SizedBox(height: 20,),
+              const SizedBox(
+                height: 20,
+              ),
               ElevatedButton.icon(
                 style: ElevatedButton.styleFrom(
-                  minimumSize: const Size.fromHeight(50,),
+                  minimumSize: const Size.fromHeight(
+                    50,
+                  ),
                   backgroundColor: AppColors.kGreenColor,
                 ),
                 onPressed: () {
                   resetPassword();
                 },
                 icon: const Icon(Icons.password_outlined),
-                label: const Text("Lấy lại mật khẩu", style: TextStyle(fontSize: 24),),
+                label: const Text(
+                  "Lấy lại mật khẩu",
+                  style: TextStyle(fontSize: 24),
+                ),
               ),
-              const SizedBox(height: 20,),
+              const SizedBox(
+                height: 20,
+              ),
               ElevatedButton.icon(
                 style: ElevatedButton.styleFrom(
-                  minimumSize: const Size.fromHeight(50,),
+                  minimumSize: const Size.fromHeight(
+                    50,
+                  ),
                   backgroundColor: AppColors.kGreenColor,
                 ),
                 onPressed: () {
-                  Navigator.push(context, MaterialPageRoute(
-                      builder: (context) => const MainScreen()));
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const MainScreen()));
                 },
                 icon: const Icon(Icons.home),
-                label: const Text("Trở về trang chủ", style: TextStyle(fontSize: 24),),
+                label: const Text(
+                  "Trở về trang chủ",
+                  style: TextStyle(fontSize: 24),
+                ),
               ),
             ],
           ),

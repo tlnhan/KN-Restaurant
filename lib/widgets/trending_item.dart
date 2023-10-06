@@ -7,14 +7,13 @@ import '../utils/appColors.dart';
 class TrendingItem extends StatefulWidget {
   const TrendingItem({super.key});
 
-
   @override
   State<TrendingItem> createState() => _TrendingItemState();
 }
 
 class _TrendingItemState extends State<TrendingItem> {
-
-  final _userStream = FirebaseFirestore.instance.collection("TrendingRestaurants").snapshots();
+  final _userStream =
+      FirebaseFirestore.instance.collection("TrendingRestaurants").snapshots();
 
   @override
   Widget build(BuildContext context) {
@@ -43,7 +42,8 @@ class _TrendingItemState extends State<TrendingItem> {
                   onTap: () {
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => const FoodsItem()),
+                      MaterialPageRoute(
+                          builder: (context) => const FoodsItem()),
                     );
                   },
                   child: Padding(
@@ -52,15 +52,16 @@ class _TrendingItemState extends State<TrendingItem> {
                       height: MediaQuery.of(context).size.height / 2.5,
                       width: MediaQuery.of(context).size.width,
                       child: Card(
-                        shape:
-                        RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10.0)),
                         elevation: 3.0,
                         child: Column(
                           children: <Widget>[
                             Stack(
                               children: <Widget>[
                                 SizedBox(
-                                  height: MediaQuery.of(context).size.height / 3.5,
+                                  height:
+                                      MediaQuery.of(context).size.height / 3.5,
                                   width: MediaQuery.of(context).size.width,
                                   child: ClipRRect(
                                     borderRadius: const BorderRadius.only(
@@ -78,7 +79,8 @@ class _TrendingItemState extends State<TrendingItem> {
                                   right: 6.0,
                                   child: Card(
                                     shape: RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.circular(4.0)),
+                                        borderRadius:
+                                            BorderRadius.circular(4.0)),
                                     child: Padding(
                                       padding: const EdgeInsets.all(2.0),
                                       child: Row(
@@ -104,7 +106,8 @@ class _TrendingItemState extends State<TrendingItem> {
                                   left: 6.0,
                                   child: Card(
                                     shape: RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.circular(3.0)),
+                                        borderRadius:
+                                            BorderRadius.circular(3.0)),
                                     child: const Padding(
                                       padding: EdgeInsets.all(4.0),
                                       child: Text(

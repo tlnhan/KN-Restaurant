@@ -36,7 +36,7 @@ class _CategoriesState extends State<Categories> {
             crossAxisCount: 2,
             children: List.generate(
               categories.length,
-                  (index) {
+              (index) {
                 var cat = categories[index];
                 return Container(
                   padding: const EdgeInsets.all(8.0),
@@ -55,13 +55,11 @@ class _CategoriesState extends State<Categories> {
                             gradient: LinearGradient(
                               begin: Alignment.topCenter,
                               end: Alignment.bottomCenter,
-                              // Add one stop for each color. Stops should increase from 0 to 1
                               stops: const [0.2, 0.7],
                               colors: [
                                 cat['color1'],
                                 cat['color2'],
                               ],
-                              // stops: [0.0, 0.1],
                             ),
                           ),
                           height: MediaQuery.of(context).size.height,
@@ -72,10 +70,6 @@ class _CategoriesState extends State<Categories> {
                             height: MediaQuery.of(context).size.height,
                             width: MediaQuery.of(context).size.height,
                             padding: const EdgeInsets.all(1),
-                            // constraints: BoxConstraints(
-                            //   minWidth: 20,
-                            //   minHeight: 20,
-                            // ),
                             child: Center(
                               child: Text(
                                 cat["name"],

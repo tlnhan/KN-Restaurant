@@ -1,40 +1,33 @@
 import 'package:flutter/material.dart';
-import 'package:kn_restaurant/widgets/trending_item.dart';
+
+import '../models/food_model.dart';
+import '../utils/appColors.dart';
+import '../controllers/cart_controller.dart';
+import 'package:get/get.dart';
+
 import '../utils/const.dart';
 
-class SlideItem extends StatefulWidget {
-  final String img;
-  final String title;
-  final String address;
-  final String rating;
+class FoodDetailPage extends StatelessWidget {
+  final Food food;
 
-  const SlideItem({
-    Key? key,
-    required this.img,
-    required this.title,
-    required this.address,
-    required this.rating,
-  }) : super(key: key);
+  const FoodDetailPage({super.key, required this.food});
 
-  @override
-  State<SlideItem> createState() => _SlideItemState();
-}
-
-class _SlideItemState extends State<SlideItem> {
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(top: 5.0, bottom: 5.0),
-      child: GestureDetector(
-        onTap: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => const TrendingItem()),
-          );
-        },
+    Get.put(CartController());
+    final CartController cartController = Get.find();
+
+    return Scaffold(
+      appBar: AppBar(
+        centerTitle: true,
+        title: const Text("Thông tin chi tiết món ăn"),
+        backgroundColor: AppColors.kGreenColor,
+      ),
+      body: Padding(
+        padding: const EdgeInsets.only(top: 5.0, bottom: 5.0),
         child: SizedBox(
-          height: MediaQuery.of(context).size.height / 2.9,
-          width: MediaQuery.of(context).size.width / 1.2,
+          height: MediaQuery.of(context).size.height / 2.2,
+          width: MediaQuery.of(context).size.width,
           child: Card(
             shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(10.0)),
@@ -44,15 +37,15 @@ class _SlideItemState extends State<SlideItem> {
                 Stack(
                   children: <Widget>[
                     SizedBox(
-                      height: MediaQuery.of(context).size.height / 3.7,
+                      height: MediaQuery.of(context).size.height / 3.5,
                       width: MediaQuery.of(context).size.width,
                       child: ClipRRect(
                         borderRadius: const BorderRadius.only(
-                          topLeft: Radius.circular(10.0),
-                          topRight: Radius.circular(10.0),
+                          topLeft: Radius.circular(10),
+                          topRight: Radius.circular(10),
                         ),
-                        child: Image.asset(
-                          widget.img,
+                        child: Image.network(
+                          food.img,
                           fit: BoxFit.cover,
                         ),
                       ),
@@ -70,10 +63,10 @@ class _SlideItemState extends State<SlideItem> {
                               Icon(
                                 Icons.star,
                                 color: Constants.ratingBG,
-                                size: 10,
+                                size: 10.0,
                               ),
                               Text(
-                                " ${widget.rating} ",
+                                "${food.rating}",
                                 style: const TextStyle(
                                   fontSize: 10.0,
                                 ),
@@ -92,7 +85,7 @@ class _SlideItemState extends State<SlideItem> {
                         child: const Padding(
                           padding: EdgeInsets.all(4.0),
                           child: Text(
-                            " OPEN ",
+                            " OPEN",
                             style: TextStyle(
                               fontSize: 10.0,
                               color: Colors.green,
@@ -110,10 +103,11 @@ class _SlideItemState extends State<SlideItem> {
                   child: SizedBox(
                     width: MediaQuery.of(context).size.width,
                     child: Text(
-                      widget.title,
+                      food.name,
                       style: const TextStyle(
                         fontSize: 20.0,
                         fontWeight: FontWeight.w800,
+                        color: AppColors.kGreenColor,
                       ),
                       textAlign: TextAlign.left,
                     ),
@@ -125,15 +119,46 @@ class _SlideItemState extends State<SlideItem> {
                   child: SizedBox(
                     width: MediaQuery.of(context).size.width,
                     child: Text(
-                      widget.address,
+                      food.description,
                       style: const TextStyle(
-                        fontSize: 12.0,
+                        fontSize: 20.0,
                         fontWeight: FontWeight.w300,
                       ),
                     ),
                   ),
                 ),
                 const SizedBox(height: 10.0),
+                Padding(
+                  padding: const EdgeInsets.only(left: 15.0),
+                  child: SizedBox(
+                      width: MediaQuery.of(context).size.width,
+                      child: Row(
+                        children: [
+                          ElevatedButton.icon(
+                            onPressed: () => {
+                              cartController.addFood(food),
+                            },
+                            icon: const Icon(
+                                Icons.shopping_cart_checkout_outlined),
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: AppColors.kGreenColor,
+                            ),
+                            label: const Text(
+                              "Thêm vào giỏ hàng",
+                            ),
+                          ),
+                          const SizedBox(width: 50),
+                          Text(
+                            '${food.price} VNĐ',
+                            style: const TextStyle(
+                              fontSize: 20.0,
+                              fontWeight: FontWeight.bold,
+                              color: AppColors.kGreenColor,
+                            ),
+                          ),
+                        ],
+                      )),
+                ),
               ],
             ),
           ),

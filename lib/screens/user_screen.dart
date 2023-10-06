@@ -12,10 +12,10 @@ class UserScreen extends StatefulWidget {
   const UserScreen({Key? key}) : super(key: key);
 
   @override
-  State<UserScreen> createState() => _UserScreenState();
+  State<UserScreen> createState() => UserScreenState();
 }
 
-class _UserScreenState extends State<UserScreen> {
+class UserScreenState extends State<UserScreen> {
   final user = FirebaseAuth.instance.currentUser!;
   final TextEditingController fullNameController = TextEditingController();
   final TextEditingController phoneNumberController = TextEditingController();
@@ -29,7 +29,7 @@ class _UserScreenState extends State<UserScreen> {
 
   void loadUserProfile() async {
     final userProfileRef =
-    FirebaseFirestore.instance.collection('UserProfiles').doc(user.uid);
+        FirebaseFirestore.instance.collection('UserProfiles').doc(user.uid);
 
     try {
       final userProfileDoc = await userProfileRef.get();
@@ -44,14 +44,14 @@ class _UserScreenState extends State<UserScreen> {
         print('Error loading user profile: $error');
       }
     }
-    }
+  }
 
   Future<void> saveOrUpdateUserProfile() async {
     final user = FirebaseAuth.instance.currentUser;
 
     if (user != null) {
       final userProfileRef =
-      FirebaseFirestore.instance.collection('UserProfiles').doc(user.uid);
+          FirebaseFirestore.instance.collection('UserProfiles').doc(user.uid);
 
       final userProfileData = {
         'id': user.uid,
@@ -67,7 +67,7 @@ class _UserScreenState extends State<UserScreen> {
       try {
         await userProfileRef.set(userProfileData, SetOptions(merge: true));
         Get.snackbar('Cập nhật thành công', 'Thông tin hồ sơ đã được lưu.',
-            snackPosition: SnackPosition.BOTTOM);
+            snackPosition: SnackPosition.TOP);
       } catch (error) {
         if (kDebugMode) {
           print('Error saving user profile: $error');
@@ -105,7 +105,9 @@ class _UserScreenState extends State<UserScreen> {
         child: SingleChildScrollView(
           child: Column(
             children: [
-              const SizedBox(height: 90,),
+              const SizedBox(
+                height: 90,
+              ),
               TextFormField(
                 decoration: const InputDecoration(
                   labelText: 'Họ và tên:  ',
@@ -129,9 +131,8 @@ class _UserScreenState extends State<UserScreen> {
               TextFormField(
                 readOnly: true,
                 decoration: InputDecoration(
-                  labelText: 'Trạng thái:  ${user.emailVerified
-                      ? "Đã xác thực"
-                      : "Chưa xác thực"}',
+                  labelText:
+                      'Trạng thái:  ${user.emailVerified ? "Đã xác thực" : "Chưa xác thực"}',
                 ),
                 style: const TextStyle(
                   fontWeight: FontWeight.bold,
@@ -161,7 +162,8 @@ class _UserScreenState extends State<UserScreen> {
               TextFormField(
                 readOnly: true,
                 decoration: InputDecoration(
-                  labelText: 'Ngày tạo:  ${DateFormat('dd-MM-yyyy HH:mm:ss').format(user.metadata.creationTime!.toLocal())}',
+                  labelText:
+                      'Ngày tạo:  ${DateFormat('dd-MM-yyyy HH:mm:ss').format(user.metadata.creationTime!.toLocal())}',
                 ),
                 style: const TextStyle(
                   fontWeight: FontWeight.bold,
@@ -177,8 +179,8 @@ class _UserScreenState extends State<UserScreen> {
                       saveOrUpdateUserProfile();
                     },
                     style: ButtonStyle(
-                      backgroundColor:
-                      MaterialStateProperty.all<Color>(AppColors.kGreenColor),
+                      backgroundColor: MaterialStateProperty.all<Color>(
+                          AppColors.kGreenColor),
                     ),
                     label: const Text('Cập nhật'),
                     icon: const Icon(Icons.upload_sharp),
@@ -198,8 +200,8 @@ class _UserScreenState extends State<UserScreen> {
                               builder: (context) => const LoginScreen()));
                     },
                     style: ButtonStyle(
-                        backgroundColor:
-                        MaterialStateProperty.all<Color>(AppColors.kGreenColor)),
+                        backgroundColor: MaterialStateProperty.all<Color>(
+                            AppColors.kGreenColor)),
                     label: const Text('Đăng xuất'),
                     icon: const Icon(Icons.logout_outlined),
                   ),

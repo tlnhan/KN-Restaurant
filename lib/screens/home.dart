@@ -33,7 +33,9 @@ class Home extends StatelessWidget {
           padding: const EdgeInsets.fromLTRB(10.0, 0, 10.0, 0),
           child: ListView(
             children: <Widget>[
-              const SizedBox(height: 10.0,),
+              const SizedBox(
+                height: 10.0,
+              ),
               buildSearchBar(context),
               const SizedBox(height: 20.0),
               buildRestaurantRow("Nhà hàng nổi tiếng", context),
@@ -81,8 +83,7 @@ class Home extends StatelessWidget {
               context,
               MaterialPageRoute(
                 builder: (BuildContext context) {
-                  return const Scaffold(
-                      body: TrendingItem());
+                  return const Scaffold(body: TrendingItem());
                 },
               ),
             );
@@ -131,7 +132,8 @@ class Home extends StatelessWidget {
 
   buildSearchBar(BuildContext context) {
     return Container(
-        margin: const EdgeInsets.fromLTRB(10, 5, 10, 0), child: const SearchCard());
+        margin: const EdgeInsets.fromLTRB(10, 5, 10, 0),
+        child: const SearchCard());
   }
 
   buildCategoryList(BuildContext context) {
