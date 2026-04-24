@@ -22,7 +22,7 @@ class Trending extends StatelessWidget {
               primary: false,
               shrinkWrap: true,
               physics: const NeverScrollableScrollPhysics(),
-              itemCount: restaurants == null ? 0 : restaurants.length,
+              itemCount: restaurants.length,
               itemBuilder: (BuildContext context, int index) {
                 return const TrendingItem();
               },

@@ -29,6 +29,8 @@ class _ForgotPasswordState extends State<ForgotPassword> {
       await FirebaseAuth.instance
           .sendPasswordResetEmail(email: emailController.text.trim());
 
+      if (!mounted) return;
+
       Utils.showSnackBar("Email lấy lại mật khẩu đã được gửi");
       Navigator.pushReplacement(context,
           MaterialPageRoute(builder: (context) => const LoginScreen()));

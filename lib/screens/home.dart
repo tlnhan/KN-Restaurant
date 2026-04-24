@@ -70,7 +70,7 @@ class Home extends StatelessWidget {
         ),
         ElevatedButton(
           style: ButtonStyle(
-            backgroundColor: MaterialStateProperty.all<Color>(Colors.green),
+            backgroundColor: WidgetStateProperty.all<Color>(Colors.green),
           ),
           child: Text(
             "Tất cả (${foodController.foods.length})",
@@ -107,7 +107,7 @@ class Home extends StatelessWidget {
         ),
         ElevatedButton(
           style: ButtonStyle(
-            backgroundColor: MaterialStateProperty.all<Color>(Colors.green),
+            backgroundColor: WidgetStateProperty.all<Color>(Colors.green),
           ),
           child: const Text(
             "Tất cả (5)",
@@ -143,7 +143,7 @@ class Home extends StatelessWidget {
         primary: false,
         scrollDirection: Axis.horizontal,
         shrinkWrap: true,
-        itemCount: categories == null ? 0 : categories.length,
+        itemCount: categories.length,
         itemBuilder: (BuildContext context, int index) {
           Map cat = categories[index];
 
@@ -163,7 +163,7 @@ class Home extends StatelessWidget {
         primary: false,
         shrinkWrap: true,
         scrollDirection: Axis.horizontal,
-        itemCount: restaurants == null ? 0 : restaurants.length,
+        itemCount: restaurants.length,
         itemBuilder: (BuildContext context, int index) {
           Map restaurant = restaurants[index];
 

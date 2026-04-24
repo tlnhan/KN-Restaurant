@@ -1,11 +1,11 @@
 {
-    "name": "kn_restaurant",
-    "short_name": "kn_restaurant",
+    "name": "kn_restaurant_new",
+    "short_name": "kn_restaurant_new",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",
     "theme_color": "#0175C2",
-    "description": "A new Flutter project about restaurant.",
+    "description": "A new Flutter project.",
     "orientation": "portrait-primary",
     "prefer_related_applications": false,
     "icons": [

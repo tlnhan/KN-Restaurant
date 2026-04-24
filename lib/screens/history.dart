@@ -1,7 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:kn_restaurant/screens/odered_list.dart';
-import 'package:kn_restaurant/screens/register.dart';
 import 'package:kn_restaurant/utils/appColors.dart';
 
 import 'login.dart';
@@ -56,7 +55,7 @@ class Histories extends StatelessWidget {
                                   builder: (context) => const LoginScreen()));
                         },
                         style: ButtonStyle(
-                            backgroundColor: MaterialStateProperty.all<Color>(
+                            backgroundColor: WidgetStateProperty.all<Color>(
                                 AppColors.kGreenColor)),
                         child: const Text('Đăng nhập'),
                       ),
